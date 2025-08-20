@@ -2,19 +2,19 @@
 
 ## Stack 🛠️
 
-### Frontend
+### 💻 Frontend
 
 Next.js, React, Zustand, Tailwind
 
-### Backend
+### 🌐 Backend
 
 Express, Postgres, Prisma
 
-### Infra
+### ☁️ Infra
 
 Nginx, Docker, Terraform, AWS, GitHub Actions (CI/CD)
 
-### Auxiliary
+### 🧰 Auxiliary
 
 TypeScript, Zod, Jest, JWT
 
