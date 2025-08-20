@@ -1,4 +1,4 @@
-# 🍅 [The Pomodoro](thepomodoro.net)
+# 🍅 [The Pomodoro](https://thepomodoro.net)
 
 ## Stack 🛠️
 
