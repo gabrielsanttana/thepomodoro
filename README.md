@@ -8,7 +8,7 @@ Next.js, React, Zustand, Tailwind
 
 ### 🌐 Backend
 
-Express, Postgres, Prisma
+Express.js, Postgres, Prisma
 
 ### ☁️ Infra
 
