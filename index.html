@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Pomodoro: a calm timer for focused work</title>
+    <meta
+      name="description"
+      content="A Pomodoro timer for the web. Focus for twenty-five minutes, rest for five, take a longer break after every fourth session, and watch your focused work add up."
+    />
+    <meta name="author" content="Gabriel Santana" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="theme-color"
+      content="#fcfbfe"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#0f0c14"
+      media="(prefers-color-scheme: dark)"
+    />
+    <link
+      rel="canonical"
+      href="https://gabrielsanttana.github.io/thepomodoro/"
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="The Pomodoro" />
+    <meta
+      property="og:title"
+      content="The Pomodoro: get more done, one session at a time"
+    />
+    <meta
+      property="og:description"
+      content="A calm Pomodoro timer for the web, with a colour for every phase and a history of the work you actually did."
+    />
+    <meta
+      property="og:url"
+      content="https://gabrielsanttana.github.io/thepomodoro/"
+    />
+    <meta
+      property="og:image"
+      content="https://gabrielsanttana.github.io/thepomodoro/assets/og-card.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="The Pomodoro logo beside the headline “Get more done, one session at a time” and a purple timer ring reading 14:37."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="icon"
+      href="assets/favicon-32.png"
+      sizes="32x32"
+      type="image/png"
+    />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Icons from Lucide (ISC), the set the app uses. -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <symbol
+          id="i-arrow-right"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </symbol>
+        <symbol
+          id="i-check"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M20 6 9 17l-5-5" />
+        </symbol>
+        <symbol
+          id="i-crown"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"
+          />
+          <path d="M5 21h14" />
+        </symbol>
+        <symbol
+          id="i-timer"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="10" x2="14" y1="2" y2="2" />
+          <line x1="12" x2="15" y1="14" y2="11" />
+          <circle cx="12" cy="14" r="8" />
+        </symbol>
+        <symbol
+          id="i-skip"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polygon points="5 4 15 12 5 20 5 4" />
+          <line x1="19" x2="19" y1="5" y2="19" />
+        </symbol>
+        <symbol
+          id="i-keyboard"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M10 8h.01" />
+          <path d="M12 12h.01" />
+          <path d="M14 8h.01" />
+          <path d="M16 12h.01" />
+          <path d="M18 8h.01" />
+          <path d="M6 8h.01" />
+          <path d="M7 16h10" />
+          <path d="M8 12h.01" />
+          <rect width="20" height="16" x="2" y="4" rx="2" />
+        </symbol>
+        <symbol
+          id="i-window"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="2" y="4" width="20" height="16" rx="2" />
+          <path d="M10 4v4" />
+          <path d="M2 8h20" />
+          <path d="M6 4v4" />
+        </symbol>
+        <symbol
+          id="i-dots"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="5" cy="12" r="2" fill="currentColor" />
+          <circle cx="12" cy="12" r="2" fill="currentColor" />
+          <circle cx="19" cy="12" r="2" />
+        </symbol>
+        <symbol
+          id="i-contrast"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 18a6 6 0 0 0 0-12v12z" />
+        </symbol>
+        <symbol
+          id="i-sliders"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="21" x2="14" y1="4" y2="4" />
+          <line x1="10" x2="3" y1="4" y2="4" />
+          <line x1="21" x2="12" y1="12" y2="12" />
+          <line x1="8" x2="3" y1="12" y2="12" />
+          <line x1="21" x2="16" y1="20" y2="20" />
+          <line x1="12" x2="3" y1="20" y2="20" />
+          <line x1="14" x2="14" y1="2" y2="6" />
+          <line x1="8" x2="8" y1="10" y2="14" />
+          <line x1="16" x2="16" y1="18" y2="22" />
+        </symbol>
+        <symbol
+          id="i-book"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 7v14" />
+          <path
+            d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
+          />
+        </symbol>
+        <symbol id="logo" viewBox="0 0 64 64">
+          <ellipse
+            cx="32"
+            cy="38"
+            rx="25"
+            ry="22.5"
+            fill="oklch(0.627 0.265 304)"
+          />
+          <ellipse
+            cx="23"
+            cy="31"
+            rx="6"
+            ry="4"
+            transform="rotate(-35 23 31)"
+            fill="#fff"
+            fill-opacity=".25"
+          />
+          <g
+            stroke="oklch(0.74 0.17 145)"
+            stroke-width="5.5"
+            stroke-linecap="round"
+            fill="none"
+          >
+            <path d="M32 18 L32 6" />
+            <path d="M32 18 L17 15" />
+            <path d="M32 18 L47 15" />
+            <path d="M32 18 L23 25" />
+            <path d="M32 18 L41 25" />
+          </g>
+        </symbol>
+      </defs>
+    </svg>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="#top" aria-label="The Pomodoro, back to top">
+          <svg class="logo" aria-hidden="true"><use href="#logo" /></svg>
+          The Pomodoro
+        </a>
+        <nav class="site-nav" aria-label="Sections">
+          <a href="#rhythm">How it works</a>
+          <a href="#features">Features</a>
+          <a href="#history">History</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <a class="button button--outline" href="coming-soon/">Open the app</a>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top" aria-labelledby="hero-heading">
+        <div class="orb" aria-hidden="true"></div>
+        <div class="wrap">
+          <div class="hero-ring enter" data-mode="focus" aria-hidden="true">
+            <svg viewBox="0 0 100 100">
+              <circle
+                class="ring-track"
+                cx="50"
+                cy="50"
+                r="46"
+                fill="none"
+                stroke-width="4"
+              />
+            </svg>
+            <!-- A blurred copy under the crisp arc reads as a soft glow, as in the app's HeroRing. -->
+            <svg class="ring-glow" viewBox="0 0 100 100">
+              <circle
+                class="ring-arc"
+                cx="50"
+                cy="50"
+                r="46"
+                fill="none"
+                stroke-width="4"
+                stroke-linecap="round"
+                pathLength="100"
+                stroke-dasharray="75 100"
+              />
+            </svg>
+            <svg viewBox="0 0 100 100">
+              <circle
+                class="ring-arc"
+                cx="50"
+                cy="50"
+                r="46"
+                fill="none"
+                stroke-width="4"
+                stroke-linecap="round"
+                pathLength="100"
+                stroke-dasharray="75 100"
+              />
+            </svg>
+            <svg class="logo"><use href="#logo" /></svg>
+          </div>
+          <p class="badge enter" style="--enter-order: 1">
+            Focus · Break · Repeat
+          </p>
+          <h1 id="hero-heading" class="enter" style="--enter-order: 2">
+            Get more done, one session at a time
+          </h1>
+          <p class="lead enter" style="--enter-order: 3">
+            Pick one task and give it 25 minutes. Then take a 5-minute break.
+            That's the whole technique.
+          </p>
+          <div class="hero-actions enter" style="--enter-order: 4">
+            <a class="button button--primary button--xl" href="coming-soon/">
+              Start focusing for free
+              <svg aria-hidden="true"><use href="#i-arrow-right" /></svg>
+            </a>
+            <a class="button button--ghost button--xl" href="#rhythm">
+              <svg aria-hidden="true"><use href="#i-book" /></svg>
+              See how it works
+            </a>
+          </div>
+          <p class="hero-note enter" style="--enter-order: 5">
+            Free account. Sign in with Google or your email.
+          </p>
+
+          <figure class="hero-shot enter" style="--enter-order: 6">
+            <div class="browser">
+              <div class="browser-bar" aria-hidden="true">
+                <span></span><span></span><span></span>
+                <span class="browser-url">thepomodoro.net/timer</span>
+              </div>
+              <picture>
+                <source
+                  srcset="assets/screenshots/mobile/focus-dark.png"
+                  media="(max-width: 639px) and (prefers-color-scheme: dark)"
+                  width="780"
+                  height="1688"
+                />
+                <source
+                  srcset="assets/screenshots/mobile/focus-light.png"
+                  media="(max-width: 639px)"
+                  width="780"
+                  height="1688"
+                />
+                <source
+                  srcset="assets/screenshots/desktop/focus-dark.png"
+                  media="(prefers-color-scheme: dark)"
+                />
+                <img
+                  src="assets/screenshots/desktop/focus-light.png"
+                  width="2880"
+                  height="1800"
+                  fetchpriority="high"
+                  alt="The timer in focus mode: a purple ring 42% drawn around 14:36, with Reset, Pause and Skip buttons, the keyboard shortcuts, and two of four session dots filled."
+                />
+              </picture>
+            </div>
+            <figcaption>
+              Mid-session in focus mode. The whole page takes the colour of the
+              phase you're in.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section" id="rhythm" aria-labelledby="rhythm-heading">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">How it works</p>
+            <h2 id="rhythm-heading">A simple rhythm.</h2>
+            <p>
+              Short, timed stretches of focus with deliberate rest in between.
+              Each phase has its own colour, so a glance at the screen tells you
+              whether to keep going or step away.
+            </p>
+          </div>
+          <ol class="steps">
+            <li class="step card" data-mode="focus">
+              <span class="step-number mono" aria-hidden="true">01</span>
+              <div>
+                <h3>
+                  <span class="dot" aria-hidden="true"></span>Focus
+                  <span class="mono">25m</span>
+                </h3>
+                <p>
+                  Pick one task. Give it your full attention until the ring
+                  closes.
+                </p>
+              </div>
+            </li>
+            <li class="step card" data-mode="short">
+              <span class="step-number mono" aria-hidden="true">02</span>
+              <div>
+                <h3>
+                  <span class="dot" aria-hidden="true"></span>Short break
+                  <span class="mono">5m</span>
+                </h3>
+                <p>
+                  Stand up, stretch, get some water. Away from the screen is
+                  best.
+                </p>
+              </div>
+            </li>
+            <li class="step card" data-mode="long">
+              <span class="step-number mono" aria-hidden="true">03</span>
+              <div>
+                <h3>
+                  <span class="dot" aria-hidden="true"></span>Long break
+                  <span class="mono">15m</span>
+                </h3>
+                <p>
+                  After four pomodoros, rest properly before the next cycle
+                  begins.
+                </p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="phones">
+            <figure class="phone" data-mode="focus">
+              <picture>
+                <source
+                  srcset="assets/screenshots/mobile/focus-dark.png"
+                  media="(prefers-color-scheme: dark)"
+                />
+                <img
+                  src="assets/screenshots/mobile/focus-light.png"
+                  width="780"
+                  height="1688"
+                  loading="lazy"
+                  alt="Focus mode on a phone: a purple ring around 14:36."
+                />
+              </picture>
+              <figcaption>
+                <span class="dot" aria-hidden="true"></span>Focus
+              </figcaption>
+            </figure>
+            <figure class="phone" data-mode="short">
+              <picture>
+                <source
+                  srcset="assets/screenshots/mobile/short-dark.png"
+                  media="(prefers-color-scheme: dark)"
+                />
+                <img
+                  src="assets/screenshots/mobile/short-light.png"
+                  width="780"
+                  height="1688"
+                  loading="lazy"
+                  alt="Short break on a phone: a blue ring around 02:12."
+                />
+              </picture>
+              <figcaption>
+                <span class="dot" aria-hidden="true"></span>Short break
+              </figcaption>
+            </figure>
+            <figure class="phone" data-mode="long">
+              <picture>
+                <source
+                  srcset="assets/screenshots/mobile/long-dark.png"
+                  media="(prefers-color-scheme: dark)"
+                />
+                <img
+                  src="assets/screenshots/mobile/long-light.png"
+                  width="780"
+                  height="1688"
+                  loading="lazy"
+                  alt="Long break on a phone: a green ring around 09:47."
+                />
+              </picture>
+              <figcaption>
+                <span class="dot" aria-hidden="true"></span>Long break
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="features" aria-labelledby="features-heading">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">What's inside</p>
+            <h2 id="features-heading">
+              Everything a timer needs. Nothing it doesn't.
+            </h2>
+            <p>
+              No feeds, no badges to chase, no setup. Open it, press start, and
+              get to work.
+            </p>
+          </div>
+          <div class="features">
+            <article class="feature card" data-mode="focus">
+              <div class="feature-icon" aria-hidden="true">
+                <svg><use href="#i-timer" /></svg>
+              </div>
+              <h3>Three modes, three colours</h3>
+              <p>
+                Purple for focus, blue for a short break, green for a long one.
+                You always know where you are in the cycle.
+              </p>
+              <div class="mode-swatches" aria-hidden="true">
+                <span data-mode="focus">Focus</span
+                ><span data-mode="short">Short</span
+                ><span data-mode="long">Long</span>
+              </div>
+            </article>
+            <article class="feature card" data-mode="focus">
+              <div class="feature-icon" aria-hidden="true">
+                <svg><use href="#i-keyboard" /></svg>
+              </div>
+              <h3>Hands on the keyboard</h3>
+              <p>
+                Start, pause, reset and skip without reaching for the mouse.
+              </p>
+              <p class="keys">
+                <span><kbd>Space</kbd> or <kbd>K</kbd> start/pause</span>
+                <span><kbd>R</kbd> reset</span> <span><kbd>S</kbd> skip</span>
+              </p>
+            </article>
+            <article class="feature card" data-mode="short">
+              <div class="feature-icon" aria-hidden="true">
+                <svg><use href="#i-skip" /></svg>
+              </div>
+              <h3>Skip when you need to</h3>
+              <p>
+                Finished early, or the meeting started? Skip ahead and the cycle
+                keeps its order.
+              </p>
+            </article>
+            <article class="feature card" data-mode="long">
+              <div class="feature-icon" aria-hidden="true">
+                <svg><use href="#i-window" /></svg>
+              </div>
+              <h3>The countdown in your tab</h3>
+              <p>
+                Time left shows in the browser tab, so you can check it without
+                leaving your work. It stays accurate in the background.
+              </p>
+            </article>
+            <article class="feature card" data-mode="focus">
+              <div class="feature-icon" aria-hidden="true">
+                <svg><use href="#i-dots" /></svg>
+              </div>
+              <h3>Session dots</h3>
+              <p>
+                Four dots fill as you go and show how far away the long break
+                is, with today's count just below.
+              </p>
+            </article>
+            <article class="feature card" data-mode="short">
+              <div class="feature-icon" aria-hidden="true">
+                <svg><use href="#i-contrast" /></svg>
+              </div>
+              <h3>Light and dark</h3>
+              <p>
+                Follows your system, or pick a theme yourself. Easy on the eyes
+                at seven in the morning and at midnight.
+              </p>
+            </article>
+            <article class="feature card feature--wide" data-mode="focus">
+              <div class="feature-icon" aria-hidden="true">
+                <svg><use href="#i-sliders" /></svg>
+              </div>
+              <h3>
+                Your own rhythm
+                <span class="badge"
+                  ><svg aria-hidden="true"><use href="#i-crown" /></svg
+                  >Premium</span
+                >
+              </h3>
+              <p>
+                Twenty-five minutes isn't for everyone. Set each phase anywhere
+                from 1 to 120 minutes, choose how often the long break comes, or
+                start from a preset.
+              </p>
+              <ul class="presets" aria-label="Presets">
+                <li><b>Classic</b> <span class="mono">25/5/15</span></li>
+                <li><b>Extended</b> <span class="mono">45/10/30</span></li>
+                <li><b>Quick Bursts</b> <span class="mono">15/3/10</span></li>
+                <li><b>Study</b> <span class="mono">50/10/20</span></li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="history" aria-labelledby="history-heading">
+        <div class="wrap split">
+          <div class="split-text">
+            <p class="eyebrow">
+              <svg width="16" height="16" aria-hidden="true">
+                <use href="#i-crown" /></svg
+              >History · Premium
+            </p>
+            <h2 id="history-heading">Watch the work add up.</h2>
+            <p>
+              Every session you finish is saved to your account. History turns
+              those sessions into a picture of how you work: how long your
+              streak has run, how this week compares, and the time of day you do
+              your best work.
+            </p>
+            <ul class="checks">
+              <li>
+                <svg aria-hidden="true"><use href="#i-check" /></svg>Today's
+                sessions, and your current streak next to your best
+              </li>
+              <li>
+                <svg aria-hidden="true"><use href="#i-check" /></svg>Total focus
+                time and your average per active day
+              </li>
+              <li>
+                <svg aria-hidden="true"><use href="#i-check" /></svg>The last
+                seven days, day by day
+              </li>
+              <li>
+                <svg aria-hidden="true"><use href="#i-check" /></svg>Morning,
+                afternoon or evening: when you focus
+              </li>
+              <li>
+                <svg aria-hidden="true"><use href="#i-check" /></svg>Every
+                session listed, with deeper analytics a tab away
+              </li>
+            </ul>
+          </div>
+          <figure>
+            <div class="browser">
+              <div class="browser-bar" aria-hidden="true">
+                <span></span><span></span><span></span>
+                <span class="browser-url">thepomodoro.net/history</span>
+              </div>
+              <picture>
+                <source
+                  srcset="assets/screenshots/mobile/history-dark.png"
+                  media="(max-width: 639px) and (prefers-color-scheme: dark)"
+                  width="780"
+                  height="1688"
+                />
+                <source
+                  srcset="assets/screenshots/mobile/history-light.png"
+                  media="(max-width: 639px)"
+                  width="780"
+                  height="1688"
+                />
+                <source
+                  srcset="assets/screenshots/desktop/history-dark.png"
+                  media="(prefers-color-scheme: dark)"
+                />
+                <img
+                  src="assets/screenshots/desktop/history-light.png"
+                  width="2880"
+                  height="1800"
+                  loading="lazy"
+                  alt="The history page: stat cards for today, streak, total focus time and daily average, a chart of focus sessions over the last seven days, and a time-of-day breakdown."
+                />
+              </picture>
+            </div>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section" id="why" aria-labelledby="why-heading">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">Why it works</p>
+            <h2 id="why-heading">Simple on purpose.</h2>
+            <p>
+              A tomato-shaped kitchen timer started it in the late 1980s. The
+              ideas behind it have held up since.
+            </p>
+          </div>
+          <div class="reasons">
+            <article class="reason card">
+              <h3>Attention needs rest</h3>
+              <p>
+                Focus runs down the longer you hold it. Regular breaks let it
+                recover before it runs out, so your last session of the day can
+                look like your first.
+              </p>
+              <small>Attention restoration</small>
+            </article>
+            <article class="reason card">
+              <h3>A deadline you can see</h3>
+              <p>
+                Work expands to fill the time it's given. A visible
+                twenty-five-minute limit keeps tasks a sensible size and makes
+                starting feel smaller.
+              </p>
+              <small>Parkinson's law and timeboxing</small>
+            </article>
+            <article class="reason card">
+              <h3>Energy comes in waves</h3>
+              <p>
+                Alertness rises and falls through the day. A steady cycle of
+                focus and rest works with those swings instead of pushing
+                through them.
+              </p>
+              <small>Ultradian rhythms</small>
+            </article>
+          </div>
+          <p style="text-align: center">
+            <a class="more-link" href="coming-soon/"
+              >Read the full guide to the technique
+              <svg aria-hidden="true"><use href="#i-arrow-right" /></svg
+            ></a>
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="pricing" aria-labelledby="pricing-heading">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">Pricing</p>
+            <h2 id="pricing-heading">
+              Free to start. Premium when you want more.
+            </h2>
+            <p>
+              Everything you need to start is free. Premium lifts the daily
+              limit and opens up your history.
+            </p>
+          </div>
+          <div class="plans">
+            <article class="plan card">
+              <div class="plan-head"><h3>Free</h3></div>
+              <p class="plan-price">R$0</p>
+              <p class="plan-alt">No card, no trial clock.</p>
+              <ul class="checks">
+                <li>
+                  <svg aria-hidden="true"><use href="#i-check" /></svg>The
+                  timer, with all three modes
+                </li>
+                <li>
+                  <svg aria-hidden="true"><use href="#i-check" /></svg>Skip,
+                  reset and keyboard shortcuts
+                </li>
+                <li>
+                  <svg aria-hidden="true"><use href="#i-check" /></svg>Up to 8
+                  saved sessions a day
+                </li>
+                <li>
+                  <svg aria-hidden="true"><use href="#i-check" /></svg>Light and
+                  dark themes
+                </li>
+              </ul>
+              <a class="button button--outline button--xl" href="coming-soon/"
+                >Create a free account</a
+              >
+            </article>
+            <article class="plan plan--premium card">
+              <div class="plan-head">
+                <h3>Premium</h3>
+                <span class="badge"
+                  ><svg aria-hidden="true"><use href="#i-crown" /></svg>Save 16%
+                  yearly</span
+                >
+              </div>
+              <p class="plan-price">R$1.99 <small>/ month</small></p>
+              <p class="plan-alt">or R$19.99 a year</p>
+              <ul class="checks">
+                <li>
+                  <svg aria-hidden="true"><use href="#i-check" /></svg
+                  >Everything in Free
+                </li>
+                <li>
+                  <svg aria-hidden="true"><use href="#i-check" /></svg>Unlimited
+                  sessions
+                </li>
+                <li>
+                  <svg aria-hidden="true"><use href="#i-check" /></svg>Custom
+                  durations and presets
+                </li>
+                <li>
+                  <svg aria-hidden="true"><use href="#i-check" /></svg>History,
+                  streaks and analytics
+                </li>
+              </ul>
+              <a
+                class="button button--primary button--xl"
+                href="coming-soon/"
+                aria-disabled="true"
+                tabindex="-1"
+                >Checkout opening soon</a
+              >
+              <p class="plan-note">
+                Payments aren't live yet. Start free, upgrade later.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="faq" aria-labelledby="faq-heading">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">Questions</p>
+            <h2 id="faq-heading">Good to know.</h2>
+          </div>
+          <div class="faq">
+            <details>
+              <summary>Do I need an account?</summary>
+              <p>
+                Yes, a free one. Sign in with Google, or sign up with your email
+                address. Your sessions are saved to your account, so your count
+                and history follow you to any device.
+              </p>
+            </details>
+            <details>
+              <summary>What counts toward the 8 free sessions?</summary>
+              <p>
+                Every finished phase: focus sessions and breaks both count. When
+                you reach eight in a day, the count starts over at midnight.
+                Premium has no limit.
+              </p>
+            </details>
+            <details>
+              <summary>Can I change the durations?</summary>
+              <p>
+                The free plan uses the classic rhythm: 25 minutes of focus, a
+                5-minute break, and 15 minutes after every fourth session. With
+                Premium you can set each phase from 1 to 120 minutes, move the
+                long break to every 2 to 8 sessions, or pick a preset.
+              </p>
+            </details>
+            <details>
+              <summary>Does it work on my phone?</summary>
+              <p>
+                Yes. Every screen is designed for phones as well as desktops, so
+                you can open <a href="coming-soon/">thepomodoro.net</a> in your
+                phone's browser and sign in. An installable version (a PWA) is
+                coming soon: add it to your home screen and it opens like any
+                other app, full screen and one tap away.
+              </p>
+            </details>
+            <details>
+              <summary>Why “pomodoro”?</summary>
+              <p>
+                It's Italian for tomato. Francesco Cirillo came up with the
+                technique as a student in the late 1980s, timing his study
+                sessions with a tomato-shaped kitchen timer. That's why the logo
+                is a tomato too.
+              </p>
+            </details>
+            <details>
+              <summary>Who makes it?</summary>
+              <p>
+                Gabriel Santana, as a personal project. Ideas, bugs and kind
+                words are all welcome at
+                <a href="mailto:gabriel.gsantana7@gmail.com"
+                  >gabriel.gsantana7@gmail.com</a
+                >.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="cta-heading">
+        <div class="wrap">
+          <div class="cta card">
+            <div class="orb" aria-hidden="true"></div>
+            <h2 id="cta-heading">Ready when you are.</h2>
+            <p>
+              Your first pomodoro is one click away. Pick a task, start the
+              timer, and let the ring do the counting.
+            </p>
+            <a class="button button--primary button--xl" href="coming-soon/">
+              Start focusing
+              <svg aria-hidden="true"><use href="#i-arrow-right" /></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <a class="brand" href="#top">
+          <svg class="logo" aria-hidden="true"><use href="#logo" /></svg>
+          The Pomodoro
+        </a>
+        <nav class="footer-links" aria-label="Elsewhere">
+          <a href="coming-soon/">Open the app</a>
+          <a href="#why">The technique</a>
+          <a href="https://github.com/gabrielsanttana/thepomodoro">GitHub</a>
+          <a href="mailto:gabriel.gsantana7@gmail.com">Contact</a>
+        </nav>
+        <p>
+          A personal project by Gabriel Santana. Built with Next.js, tRPC,
+          Prisma and Postgres.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // The hero ring walks through the three modes, like a cycle playing out. Skipped for reduced motion.
+      (function () {
+        var ring = document.querySelector(".hero-ring");
+        if (
+          !ring ||
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        )
+          return;
+        var modes = ["focus", "short", "focus", "long"];
+        var index = 0;
+        setInterval(function () {
+          index = (index + 1) % modes.length;
+          ring.setAttribute("data-mode", modes[index]);
+        }, 3200);
+      })();
+    </script>
+  </body>
+</html>
