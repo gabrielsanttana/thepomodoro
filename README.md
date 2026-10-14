@@ -110,5 +110,5 @@ A TypeScript monorepo (Turborepo and pnpm), deployed as Docker containers.
 
 <p align="center">
   <img src="assets/logo-mark.svg" width="40" alt=""><br>
-  <sub>A personal project by <a href="mailto:gabriel.gsantana7@gmail.com">Gabriel Santana</a>.</sub>
+  <sub>A personal project by <a href="https://github.com/gabrielsanttana">Gabriel Santana</a>.</sub>
 </p>

@@ -1059,6 +1059,10 @@ kbd {
 .footer-links a:hover {
   color: var(--foreground);
 }
+.site-footer p a {
+  color: var(--foreground);
+  text-underline-offset: 3px;
+}
 @media (min-width: 880px) {
   .site-footer .wrap {
     grid-template-columns: auto 1fr auto;
