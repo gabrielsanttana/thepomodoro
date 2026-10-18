@@ -10,8 +10,8 @@
 </p>
 
 <p align="center">
-  <a href="https://gabrielsanttana.github.io/thepomodoro/coming-soon/"><b>Open the app</b></a>
-  &nbsp;·&nbsp; Back soon, after some infrastructure maintenance &nbsp;·&nbsp;
+  <a href="https://app.thepomodoro.net"><b>Open the app</b></a>
+  &nbsp;·&nbsp;
   <a href="https://gabrielsanttana.github.io/thepomodoro/">gabrielsanttana.github.io/thepomodoro</a>
 </p>
 
