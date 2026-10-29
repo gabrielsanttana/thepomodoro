@@ -1,2 +1,4 @@
 *.md linguist-language=TypeScript
 *.md linguist-documentation=false
+*.html linguist-detectable=false
+*.css linguist-detectable=false
